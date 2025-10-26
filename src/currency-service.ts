@@ -58,6 +58,7 @@ export class CurrencyService {
         [request.user_id, request.currency_type]
       );
 
+      // Defensive check: should always exist after ensureBalanceExists, but validate for safety
       if (balanceResult.rows.length === 0) {
         throw new Error('Balance record not found');
       }
@@ -116,6 +117,7 @@ export class CurrencyService {
         [request.user_id, request.currency_type]
       );
 
+      // Defensive check: should always exist after ensureBalanceExists, but validate for safety
       if (balanceResult.rows.length === 0) {
         throw new Error('Balance record not found');
       }
@@ -241,6 +243,7 @@ export class CurrencyService {
         [purchase.user_id, CurrencyType.PREMIUM]
       );
 
+      // Defensive check: should always exist after ensureBalanceExists, but validate for safety
       if (balanceResult.rows.length === 0) {
         throw new Error('Balance record not found');
       }
