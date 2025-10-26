@@ -58,6 +58,10 @@ export class CurrencyService {
         [request.user_id, request.currency_type]
       );
 
+      if (balanceResult.rows.length === 0) {
+        throw new Error('Balance record not found');
+      }
+
       const currentBalance = parseInt(balanceResult.rows[0].balance);
       const newBalance = currentBalance + request.amount;
 
@@ -111,6 +115,10 @@ export class CurrencyService {
          FOR UPDATE`,
         [request.user_id, request.currency_type]
       );
+
+      if (balanceResult.rows.length === 0) {
+        throw new Error('Balance record not found');
+      }
 
       const currentBalance = parseInt(balanceResult.rows[0].balance);
 
@@ -232,6 +240,10 @@ export class CurrencyService {
          FOR UPDATE`,
         [purchase.user_id, CurrencyType.PREMIUM]
       );
+
+      if (balanceResult.rows.length === 0) {
+        throw new Error('Balance record not found');
+      }
 
       const currentBalance = parseInt(balanceResult.rows[0].balance);
       const amount = parseInt(purchase.amount);
