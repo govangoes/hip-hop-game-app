@@ -12,6 +12,10 @@ We propose to develop a cross-platform, free-to-play mobile game that combines c
 | Cultural Knowledge Engine | Trivia subsystem with random multiple-choice questions tied to eras | Large era/artist/theme question database, dynamic CMS updates |
 | Economy & Monetization Layer | Dual currency: soft & premium; monetize cosmetic customizations & premium content | Season passes, limited events, creator marketplace & revenue share |
 
+## Implementation Status
+
+✅ **Currency System** - Fully implemented dual-currency economy with payment integration, analytics, and fraud detection. See [CURRENCY_SYSTEM.md](./CURRENCY_SYSTEM.md) for details.
+
 ## Gameplay Loop
 
 - **Onboarding & Early Progression:** Tutorial missions teach city-building, freestyle and trivia mechanics. Early wins unlock starter resources and encourage retention. 
