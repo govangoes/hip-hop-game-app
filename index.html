@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hip-Hop City Builder: Rhyme & Knowledge Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Header with stats -->
+        <header id="game-header">
+            <div class="header-content">
+                <h1>Hip-Hop City Builder</h1>
+                <div id="player-stats">
+                    <div class="stat">
+                        <span class="stat-label">Rep:</span>
+                        <span id="rep-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Money:</span>
+                        <span id="money-value">$500</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Skills:</span>
+                        <span id="skills-value">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Era:</span>
+                        <span id="era-value">1980s Bronx</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main game area -->
+        <main id="game-main">
+            <!-- Welcome screen -->
+            <div id="welcome-screen" class="screen active">
+                <div class="welcome-content">
+                    <h2>Welcome to the Bronx - 1980s</h2>
+                    <p>You're a young artist with big dreams. Build your reputation, master your craft, and create a hip-hop empire!</p>
+                    <input type="text" id="player-name" placeholder="Enter your artist name..." maxlength="20">
+                    <button id="start-game-btn" class="primary-btn">Start Your Journey</button>
+                </div>
+            </div>
+
+            <!-- City view -->
+            <div id="city-screen" class="screen">
+                <div class="city-grid" id="city-grid">
+                    <!-- City buildings will be generated here -->
+                </div>
+                <div class="city-actions">
+                    <button class="action-btn" id="build-btn">Build</button>
+                    <button class="action-btn" id="trivia-btn">Answer Trivia</button>
+                    <button class="action-btn" id="lyric-lab-btn">Lyric Lab</button>
+                    <button class="action-btn" id="freestyle-btn">Freestyle Mission</button>
+                    <button class="action-btn" id="collectibles-btn">Collectibles</button>
+                </div>
+            </div>
+
+            <!-- Trivia screen -->
+            <div id="trivia-screen" class="screen">
+                <div class="trivia-content">
+                    <h2>Hip-Hop & R&B Trivia</h2>
+                    <div id="trivia-question-container">
+                        <p id="trivia-question" class="question-text"></p>
+                        <div id="trivia-answers" class="answer-grid"></div>
+                    </div>
+                    <div id="trivia-result" class="result-message"></div>
+                    <button id="trivia-back-btn" class="secondary-btn">Back to City</button>
+                </div>
+            </div>
+
+            <!-- Lyric Lab screen -->
+            <div id="lyric-lab-screen" class="screen">
+                <div class="lab-content">
+                    <h2>Lyric Lab - Train Your Skills</h2>
+                    <div class="minigame-menu">
+                        <button class="minigame-btn" id="word-drop-btn">
+                            <h3>Word Drop</h3>
+                            <p>Catch falling words to build your vocabulary</p>
+                        </button>
+                        <button class="minigame-btn" id="rhyme-chains-btn">
+                            <h3>Rhyme Chains</h3>
+                            <p>Create the longest rhyme chains possible</p>
+                        </button>
+                        <button class="minigame-btn" id="recording-booth-btn">
+                            <h3>Recording Booth</h3>
+                            <p>Perfect your timing and delivery</p>
+                        </button>
+                    </div>
+                    <button id="lab-back-btn" class="secondary-btn">Back to City</button>
+                </div>
+            </div>
+
+            <!-- Word Drop mini-game -->
+            <div id="word-drop-game" class="screen">
+                <div class="minigame-content">
+                    <h2>Word Drop</h2>
+                    <div class="game-info">
+                        <span>Score: <span id="word-drop-score">0</span></span>
+                        <span>Time: <span id="word-drop-time">30</span>s</span>
+                    </div>
+                    <canvas id="word-drop-canvas" width="600" height="400"></canvas>
+                    <div class="game-controls">
+                        <button id="word-drop-start" class="primary-btn">Start Game</button>
+                        <button id="word-drop-back" class="secondary-btn">Back to Lab</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rhyme Chains mini-game -->
+            <div id="rhyme-chains-game" class="screen">
+                <div class="minigame-content">
+                    <h2>Rhyme Chains</h2>
+                    <div class="game-info">
+                        <span>Chain Length: <span id="chain-length">0</span></span>
+                        <span>Best: <span id="best-chain">0</span></span>
+                    </div>
+                    <div id="rhyme-prompt">
+                        <p>Starting word: <span id="current-word" class="highlight"></span></p>
+                    </div>
+                    <input type="text" id="rhyme-input" placeholder="Enter a rhyming word...">
+                    <div id="rhyme-chain-display" class="chain-display"></div>
+                    <div class="game-controls">
+                        <button id="rhyme-submit" class="primary-btn">Submit</button>
+                        <button id="rhyme-chains-back" class="secondary-btn">Back to Lab</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recording Booth mini-game -->
+            <div id="recording-booth-game" class="screen">
+                <div class="minigame-content">
+                    <h2>Recording Booth</h2>
+                    <div class="game-info">
+                        <span>Accuracy: <span id="rhythm-accuracy">0</span>%</span>
+                        <span>Combo: <span id="rhythm-combo">0</span></span>
+                    </div>
+                    <div id="rhythm-track">
+                        <div id="rhythm-target" class="rhythm-zone"></div>
+                        <div id="rhythm-beat-container"></div>
+                    </div>
+                    <div id="rhythm-lyrics"></div>
+                    <div class="game-controls">
+                        <button id="recording-start" class="primary-btn">Start Recording</button>
+                        <button id="recording-back" class="secondary-btn">Back to Lab</button>
+                    </div>
+                    <p class="instructions">Press SPACE when the beat hits the target zone!</p>
+                </div>
+            </div>
+
+            <!-- Freestyle Mission screen -->
+            <div id="freestyle-screen" class="screen">
+                <div class="freestyle-content">
+                    <h2>Freestyle Mission</h2>
+                    <div id="freestyle-prompt-container">
+                        <p class="prompt-label">Your prompt:</p>
+                        <p id="freestyle-prompt" class="highlight"></p>
+                    </div>
+                    <textarea id="freestyle-input" placeholder="Write your rhyme here..." rows="6"></textarea>
+                    <div id="freestyle-feedback" class="feedback-message"></div>
+                    <div class="game-controls">
+                        <button id="freestyle-submit" class="primary-btn">Submit Freestyle</button>
+                        <button id="freestyle-back" class="secondary-btn">Back to City</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Build menu -->
+            <div id="build-screen" class="screen">
+                <div class="build-content">
+                    <h2>Build Your Empire</h2>
+                    <div id="building-list" class="building-grid">
+                        <!-- Buildings will be populated here -->
+                    </div>
+                    <button id="build-back-btn" class="secondary-btn">Back to City</button>
+                </div>
+            </div>
+
+            <!-- Collectibles screen -->
+            <div id="collectibles-screen" class="screen">
+                <div class="collectibles-content">
+                    <h2>Your Collectibles</h2>
+                    <div id="collectibles-grid" class="collectibles-display">
+                        <!-- Collectibles will be shown here -->
+                    </div>
+                    <button id="collectibles-back-btn" class="secondary-btn">Back to City</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notifications -->
+        <div id="notification-container"></div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
