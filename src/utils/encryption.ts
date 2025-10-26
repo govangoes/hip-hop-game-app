@@ -9,7 +9,11 @@ export const encrypt = (text: string): string => {
     throw new Error('Encryption key not configured');
   }
   
-  const key = Buffer.from(config.encryption.key.padEnd(32, '0').substring(0, 32));
+  if (config.encryption.key.length !== 32) {
+    throw new Error('Encryption key must be exactly 32 characters');
+  }
+  
+  const key = Buffer.from(config.encryption.key);
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
   
@@ -24,10 +28,24 @@ export const decrypt = (text: string): string => {
     throw new Error('Encryption key not configured');
   }
   
-  const key = Buffer.from(config.encryption.key.padEnd(32, '0').substring(0, 32));
+  if (config.encryption.key.length !== 32) {
+    throw new Error('Encryption key must be exactly 32 characters');
+  }
+  
+  const key = Buffer.from(config.encryption.key);
   const parts = text.split(':');
-  const iv = Buffer.from(parts.shift()!, 'hex');
-  const encryptedText = parts.join(':');
+  
+  if (parts.length !== 2) {
+    throw new Error('Invalid encrypted data format');
+  }
+  
+  const ivHex = parts[0];
+  if (!ivHex || ivHex.length !== IV_LENGTH * 2) {
+    throw new Error('Invalid IV in encrypted data');
+  }
+  
+  const iv = Buffer.from(ivHex, 'hex');
+  const encryptedText = parts[1];
   
   const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
   let decrypted = decipher.update(encryptedText, 'hex', 'utf8');

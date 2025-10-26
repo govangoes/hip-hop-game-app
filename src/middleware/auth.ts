@@ -29,7 +29,9 @@ export const authenticate = async (
     
     req.userId = decoded.userId;
     next();
-  } catch {
+  } catch (error) {
+    // Log error for debugging but return generic message to client
+    console.error('Token verification failed:', error instanceof Error ? error.message : 'Unknown error');
     res.status(401).json({ error: 'Invalid or expired token' });
   }
 };

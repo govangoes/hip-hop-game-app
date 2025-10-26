@@ -61,7 +61,7 @@ export const registerWithEmail = async (req: AuthRequest, res: Response): Promis
       },
     });
   } catch (error) {
-    console.error('Register error:', error);
+    console.error('Register error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Registration failed' });
   }
 };
@@ -107,7 +107,7 @@ export const loginWithEmail = async (req: AuthRequest, res: Response): Promise<v
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Login failed' });
   }
 };
@@ -154,7 +154,7 @@ export const createGuestAccount = async (req: AuthRequest, res: Response): Promi
       },
     });
   } catch (error) {
-    console.error('Guest account creation error:', error);
+    console.error('Guest account creation error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Guest account creation failed' });
   }
 };
@@ -206,7 +206,7 @@ export const upgradeGuestAccount = async (req: AuthRequest, res: Response): Prom
       },
     });
   } catch (error) {
-    console.error('Account upgrade error:', error);
+    console.error('Account upgrade error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Account upgrade failed' });
   }
 };
@@ -242,7 +242,7 @@ export const linkDevice = async (req: AuthRequest, res: Response): Promise<void>
       devices: user.devices,
     });
   } catch (error) {
-    console.error('Device linking error:', error);
+    console.error('Device linking error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Device linking failed' });
   }
 };
@@ -274,7 +274,7 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
       },
     });
   } catch (error) {
-    console.error('Get profile error:', error);
+    console.error('Get profile error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch profile' });
   }
 };

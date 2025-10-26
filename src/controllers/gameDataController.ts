@@ -69,7 +69,7 @@ export const savePlayerData = async (req: AuthRequest, res: Response): Promise<v
       savedAt: new Date(),
     });
   } catch (error) {
-    console.error('Save player data error:', error);
+    console.error('Save player data error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to save player data' });
   }
 };
@@ -98,7 +98,7 @@ export const loadPlayerData = async (req: AuthRequest, res: Response): Promise<v
       loadedAt: new Date(),
     });
   } catch (error) {
-    console.error('Load player data error:', error);
+    console.error('Load player data error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to load player data' });
   }
 };
@@ -121,7 +121,7 @@ export const getPlayerProfile = async (req: AuthRequest, res: Response): Promise
     
     res.json({ profile });
   } catch (error) {
-    console.error('Get player profile error:', error);
+    console.error('Get player profile error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch player profile' });
   }
 };
@@ -148,7 +148,7 @@ export const updatePlayerProfile = async (req: AuthRequest, res: Response): Prom
       profile,
     });
   } catch (error) {
-    console.error('Update player profile error:', error);
+    console.error('Update player profile error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to update player profile' });
   }
 };
@@ -171,7 +171,7 @@ export const getCityState = async (req: AuthRequest, res: Response): Promise<voi
     
     res.json({ cityState });
   } catch (error) {
-    console.error('Get city state error:', error);
+    console.error('Get city state error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch city state' });
   }
 };
@@ -198,7 +198,7 @@ export const updateCityState = async (req: AuthRequest, res: Response): Promise<
       cityState,
     });
   } catch (error) {
-    console.error('Update city state error:', error);
+    console.error('Update city state error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to update city state' });
   }
 };
@@ -221,7 +221,7 @@ export const getCollection = async (req: AuthRequest, res: Response): Promise<vo
     
     res.json({ collection });
   } catch (error) {
-    console.error('Get collection error:', error);
+    console.error('Get collection error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch collection' });
   }
 };
@@ -248,7 +248,7 @@ export const updateCollection = async (req: AuthRequest, res: Response): Promise
       collection,
     });
   } catch (error) {
-    console.error('Update collection error:', error);
+    console.error('Update collection error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to update collection' });
   }
 };
@@ -271,7 +271,7 @@ export const getAchievements = async (req: AuthRequest, res: Response): Promise<
     
     res.json({ achievements });
   } catch (error) {
-    console.error('Get achievements error:', error);
+    console.error('Get achievements error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch achievements' });
   }
 };
@@ -298,7 +298,7 @@ export const updateAchievements = async (req: AuthRequest, res: Response): Promi
       achievements,
     });
   } catch (error) {
-    console.error('Update achievements error:', error);
+    console.error('Update achievements error:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to update achievements' });
   }
 };
