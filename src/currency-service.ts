@@ -225,20 +225,56 @@ export class CurrencyService {
 
       await this.ensureBalanceExists(client, purchase.user_id, CurrencyType.PREMIUM);
 
-      const earnResult = await this.earnCurrency({
-        user_id: purchase.user_id,
-        currency_type: CurrencyType.PREMIUM,
-        transaction_type: TransactionType.PURCHASE_CURRENCY,
-        amount: parseInt(purchase.amount),
-        description: `Purchase of ${purchase.package_id} package`,
-        metadata: { purchase_id: purchaseId }
-      });
+      // Execute earning logic within the same transaction
+      const balanceResult = await client.query(
+        `SELECT balance FROM user_balances 
+         WHERE user_id = $1 AND currency_type = $2 
+         FOR UPDATE`,
+        [purchase.user_id, CurrencyType.PREMIUM]
+      );
+
+      const currentBalance = parseInt(balanceResult.rows[0].balance);
+      const amount = parseInt(purchase.amount);
+      const newBalance = currentBalance + amount;
+
+      await client.query(
+        `UPDATE user_balances 
+         SET balance = $1, updated_at = NOW() 
+         WHERE user_id = $2 AND currency_type = $3`,
+        [newBalance, purchase.user_id, CurrencyType.PREMIUM]
+      );
+
+      const transactionResult = await client.query(
+        `INSERT INTO transactions (
+          user_id, currency_type, transaction_type, amount, 
+          balance_before, balance_after, description, metadata
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *`,
+        [
+          purchase.user_id,
+          CurrencyType.PREMIUM,
+          TransactionType.PURCHASE_CURRENCY,
+          amount,
+          currentBalance,
+          newBalance,
+          `Purchase of ${purchase.package_id} package`,
+          JSON.stringify({ purchase_id: purchaseId })
+        ]
+      );
+
+      await this.updateAnalytics(
+        client,
+        CurrencyType.PREMIUM,
+        TransactionType.PURCHASE_CURRENCY,
+        amount,
+        purchase.user_id
+      );
 
       await client.query(
         `UPDATE currency_purchases 
          SET status = 'completed', transaction_id = $1, completed_at = NOW() 
          WHERE purchase_id = $2`,
-        [earnResult.transaction_id, purchaseId]
+        [transactionResult.rows[0].transaction_id, purchaseId]
       );
 
       await client.query('COMMIT');
