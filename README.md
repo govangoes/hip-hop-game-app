@@ -3,10 +3,27 @@
 ## Executive Summary
 We propose to develop a cross-platform, free-to-play mobile game that combines city-building, narrative progression, AI-driven freestyle training and gamified knowledge quizzes. Leveraging proven engagement mechanics such as asynchronous multiplayer, live events and user-generated content, we aim to capture a global audience of hip-hop fans, casual gamers and music enthusiasts.
 
+## Key Features
+
+### Card/Sticker Collection System ✨ NEW
+
+An addictive collection-based feature inspired by popular games like Monopoly GO and Raid Shadow Legends:
+
+- **Pack Opening Mechanics**: Purchase packs with soft or premium currency to obtain randomized collectible cards/stickers
+- **Collection Albums**: Organize collectibles into themed albums (decades, genres, artists) with rewards for completion
+- **Rarity Tiers**: Common, Rare, Epic, and Legendary items with configurable drop rates
+- **Trading System**: Peer-to-peer trading allows players to exchange collectibles
+- **Limited-Time Events**: Seasonal and promotional events with exclusive collectibles
+- **Progression Integration**: Completing sets grants in-game bonuses, currency, and skill points
+
+See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for detailed API documentation and usage examples.
+See [DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md) for database schema and implementation details.
+
 ## Key Systems
 
 | System | Function (keywords) | Differentiators (keywords) |
 | --- | --- | --- |
+| **Card/Sticker Collection** | **Pack opening, rarity-based drops, album completion, trading, events** | **Configurable drop rates, themed collections, limited-time exclusives, social trading** |
 | Narrative City Builder Engine | Real-time strategy, construct & upgrade neighborhoods, persistent worlds, social hubs | Era-based narrative arcs, asset upgrades unlock new music styles & story |
 | AI-Powered Rhyme Trainer | Freestyle tool with vocabulary prompts, context-aware prompts & evaluation | Real-time scoring, adaptive difficulty, personalized training |
 | Cultural Knowledge Engine | Trivia subsystem with random multiple-choice questions tied to eras | Large era/artist/theme question database, dynamic CMS updates |
@@ -22,8 +39,74 @@ We propose to develop a cross-platform, free-to-play mobile game that combines c
 
 - **Unity/Unreal Mobile Client:** High-fidelity graphics and rapid deployment on iOS and Android. 
 - **Cloud-Based Microservices:** Scalable backend on AWS or Azure for player data, matchmaking and content delivery. 
+- **TypeScript/Node.js Services:** Card collection system with pack opening, trading, and event management.
 - **NLP & ML Integration:** Transformer-based models for real-time rhyme suggestion and speech-to-text scoring, with continuous learning. 
-- **Live Operations Tools:** Custom CMS for pushing new trivia, story missions and in‑game events without requiring client updates. 
+- **Live Operations Tools:** Custom CMS for pushing new trivia, story missions and in‑game events without requiring client updates.
+
+## Project Structure
+
+```
+hip-hop-game-app/
+├── src/
+│   ├── types/              # TypeScript type definitions
+│   ├── services/           # Business logic services
+│   │   ├── PackOpeningService.ts
+│   │   ├── CollectionService.ts
+│   │   ├── TradingService.ts
+│   │   └── EventService.ts
+│   ├── utils/              # Utility functions
+│   ├── config/             # Configuration files
+│   └── index.ts            # Main export file
+├── dist/                   # Compiled JavaScript (generated)
+├── API_DOCUMENTATION.md    # Complete API documentation
+├── DATABASE_SCHEMA.md      # Database schema and queries
+└── README.md               # This file
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- TypeScript 5+
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run tests
+npm test
+
+# Run linter
+npm run lint
+```
+
+### Quick Start Example
+
+```typescript
+import { PackOpeningService, CollectionService } from './src';
+
+// Initialize services
+const packService = new PackOpeningService();
+const collectionService = new CollectionService();
+
+// Open a pack
+const result = await packService.openPack(
+  standardPack,
+  'user123',
+  availableItems,
+  userCollection
+);
+
+console.log(`Received ${result.itemsReceived.length} items!`);
+```
+
+See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for comprehensive usage examples. 
 
 ## Market & Revenue Potential
 
