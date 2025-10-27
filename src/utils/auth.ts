@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { config } from '../config';
 
 export const hashPassword = async (password: string): Promise<string> => {
@@ -26,6 +27,6 @@ export const verifyToken = (token: string): { userId: string } => {
 
 export const generateGuestUsername = (): string => {
   const timestamp = Date.now().toString(36);
-  const randomStr = Math.random().toString(36).substring(2, 8);
-  return `guest_${timestamp}_${randomStr}`;
+  const randomBytes = crypto.randomBytes(4).toString('hex');
+  return `guest_${timestamp}_${randomBytes}`;
 };

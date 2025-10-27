@@ -4,6 +4,7 @@ import PlayerProfile from '../models/PlayerProfile';
 import CityState from '../models/CityState';
 import Collection from '../models/Collection';
 import Achievement from '../models/Achievement';
+import { validateNoQueryOperators } from '../utils/sanitization';
 
 export const savePlayerData = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -15,6 +16,24 @@ export const savePlayerData = async (req: AuthRequest, res: Response): Promise<v
     }
     
     const { profile, cityState, collection, achievements } = req.body;
+    
+    // Validate input doesn't contain MongoDB query operators
+    if (profile && !validateNoQueryOperators(profile)) {
+      res.status(400).json({ error: 'Invalid profile data' });
+      return;
+    }
+    if (cityState && !validateNoQueryOperators(cityState)) {
+      res.status(400).json({ error: 'Invalid city state data' });
+      return;
+    }
+    if (collection && !validateNoQueryOperators(collection)) {
+      res.status(400).json({ error: 'Invalid collection data' });
+      return;
+    }
+    if (achievements && !validateNoQueryOperators(achievements)) {
+      res.status(400).json({ error: 'Invalid achievements data' });
+      return;
+    }
     
     const updates = [];
     

@@ -9,12 +9,14 @@ import {
   getProfile,
 } from '../controllers/authController';
 import { authenticate } from '../middleware/auth';
+import { authLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
 // Guest account creation
 router.post(
   '/guest',
+  authLimiter,
   [
     body('deviceId').notEmpty().withMessage('Device ID is required'),
     body('deviceName').notEmpty().withMessage('Device name is required'),
@@ -25,6 +27,7 @@ router.post(
 // Email registration
 router.post(
   '/register',
+  authLimiter,
   [
     body('email').isEmail().withMessage('Valid email is required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
@@ -38,6 +41,7 @@ router.post(
 // Email login
 router.post(
   '/login',
+  authLimiter,
   [
     body('email').isEmail().withMessage('Valid email is required'),
     body('password').notEmpty().withMessage('Password is required'),
@@ -50,6 +54,7 @@ router.post(
 // Upgrade guest account
 router.post(
   '/upgrade',
+  authLimiter,
   authenticate,
   [
     body('email').isEmail().withMessage('Valid email is required'),
@@ -61,6 +66,7 @@ router.post(
 // Link device to account
 router.post(
   '/link-device',
+  authLimiter,
   authenticate,
   [
     body('deviceId').notEmpty().withMessage('Device ID is required'),

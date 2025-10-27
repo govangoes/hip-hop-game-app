@@ -12,6 +12,7 @@ import {
   updateAchievements,
 } from '../controllers/gameDataController';
 import { authenticate } from '../middleware/auth';
+import { apiLimiter, saveLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
@@ -19,23 +20,23 @@ const router = Router();
 router.use(authenticate);
 
 // Save/Load all player data
-router.post('/save', savePlayerData);
-router.get('/load', loadPlayerData);
+router.post('/save', saveLimiter, savePlayerData);
+router.get('/load', apiLimiter, loadPlayerData);
 
 // Player profile routes
-router.get('/profile', getPlayerProfile);
-router.put('/profile', updatePlayerProfile);
+router.get('/profile', apiLimiter, getPlayerProfile);
+router.put('/profile', apiLimiter, updatePlayerProfile);
 
 // City state routes
-router.get('/city', getCityState);
-router.put('/city', updateCityState);
+router.get('/city', apiLimiter, getCityState);
+router.put('/city', saveLimiter, updateCityState);
 
 // Collection routes
-router.get('/collection', getCollection);
-router.put('/collection', updateCollection);
+router.get('/collection', apiLimiter, getCollection);
+router.put('/collection', apiLimiter, updateCollection);
 
 // Achievement routes
-router.get('/achievements', getAchievements);
-router.put('/achievements', updateAchievements);
+router.get('/achievements', apiLimiter, getAchievements);
+router.put('/achievements', apiLimiter, updateAchievements);
 
 export default router;
