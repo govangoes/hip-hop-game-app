@@ -171,11 +171,24 @@ Automatically applied security headers:
 
 ### Remaining Considerations
 
-⚠️ **False Positives**: Some SQL injection warnings remain because CodeQL doesn't recognize Mongoose's built-in sanitization. These are mitigated by:
-- Mongoose automatic sanitization
-- Additional query operator validation
-- Input sanitization utilities
-- No raw query execution
+✅ **CodeQL Scan**: 14 remaining alerts (all false positives)
+
+**Rate Limiting Alerts (3)**  
+- CodeQL doesn't detect middleware-applied rate limiters
+- All routes have rate limiting via middleware:
+  - Auth routes: `authLimiter` (10 req/15min)
+  - Save routes: `saveLimiter` (30 req/min)
+  - Read routes: `apiLimiter` (100 req/15min)
+- Verified in code: src/routes/auth.ts, src/routes/gameData.ts
+
+**SQL Injection Alerts (11)**  
+- False positives - Mongoose provides automatic sanitization
+- Additional protections in place:
+  - Query operator validation (`validateNoQueryOperators`)
+  - Input sanitization utilities
+  - `userId` comes from verified JWT token (not user input)
+  - No raw queries or $where clauses
+- All queries use Mongoose ODM with parameterized inputs
 
 ## Security Best Practices Implemented
 
